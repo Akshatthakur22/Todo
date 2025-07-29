@@ -1,27 +1,44 @@
 import { createHomeStyles } from "@/assets/styles/home.styles";
-import useTheme from "@/hooks/UseTheme";
+import { useTheme } from "@/hooks/useTheme";
+import { useVibes } from "@/hooks/useVibes";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { Text, View } from "react-native";
 
 const EmptyState = () => {
   const { colors } = useTheme();
+  const { currentVibe } = useVibes();
+  const styles = createHomeStyles(colors, currentVibe);
 
-  const homeStyles = createHomeStyles(colors);
+  const emptyMessages = {
+    chill: {
+      title: "all clear, nice! 🌊",
+      subtitle: "time to add something chill to do",
+    },
+    focus: {
+      title: "ready to conquer! 🎯",
+      subtitle: "add your first task and let's go",
+    },
+    later: {
+      title: "nothing here... yet 🐼",
+      subtitle: "maybe add something for later?",
+    },
+  };
+
+  const message = emptyMessages[currentVibe];
 
   return (
-    <View style={homeStyles.emptyContainer}>
+    <View style={styles.emptyContainer}>
       <LinearGradient
         colors={colors.gradients.empty}
-        style={homeStyles.emptyIconContainer}
+        style={styles.emptyIconContainer}
       >
-        <Ionicons name="clipboard-outline" size={60} color={colors.textMuted} />
+        <Ionicons name="leaf-outline" size={80} color={colors.textMuted} />
       </LinearGradient>
-      <Text style={homeStyles.emptyText}>No todos yet!</Text>
-      <Text style={homeStyles.emptySubtext}>
-        Add your first todo above to get started
-      </Text>
+      <Text style={styles.emptyTitle}>{message.title}</Text>
+      <Text style={styles.emptySubtitle}>{message.subtitle}</Text>
     </View>
   );
 };
+
 export default EmptyState;

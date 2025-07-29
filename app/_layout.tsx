@@ -1,19 +1,29 @@
-import { ThemeProvider } from "@/hooks/UseTheme";
-import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { TaskProvider } from "@/hooks/useTasks";
+import { ThemeProvider } from "@/hooks/useTheme";
+import { VibeProvider } from "@/hooks/useVibes";
 import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
 
-const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!, {
-  unsavedChangesWarning: false,
-});
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  useEffect(() => {
+    // Hide splash screen after app loads
+    setTimeout(() => {
+      SplashScreen.hideAsync();
+    }, 2000);
+  }, []);
+
   return (
-    <ConvexProvider client={convex}>
-      <ThemeProvider>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(tabs)" />
-        </Stack>
-      </ThemeProvider>
-    </ConvexProvider>
+    <ThemeProvider>
+      <VibeProvider>
+        <TaskProvider>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tabs)" />
+          </Stack>
+        </TaskProvider>
+      </VibeProvider>
+    </ThemeProvider>
   );
 }

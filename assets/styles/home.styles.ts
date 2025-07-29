@@ -1,177 +1,161 @@
-import { ColorScheme } from "@/hooks/UseTheme";
+import { ColorScheme } from "@/hooks/useTheme";
+import { VibeMode } from "@/hooks/useVibes";
 import { StyleSheet } from "react-native";
+import { borderRadius, getVibeColors, shadows, spacing } from "./theme";
 
-export const createHomeStyles = (colors: ColorScheme) => {
-  const styles = StyleSheet.create({
+export const createHomeStyles = (colors: ColorScheme, vibe: VibeMode) => {
+  const vibeColors = getVibeColors(colors, vibe);
+
+  return StyleSheet.create({
     container: {
       flex: 1,
     },
     safeArea: {
       flex: 1,
-    },
-    loadingContainer: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    loadingText: {
-      marginTop: 20,
-      fontSize: 18,
-      fontWeight: "500",
-      color: colors.text,
+      paddingHorizontal: spacing.md,
     },
     header: {
-      paddingHorizontal: 24,
-      paddingVertical: 32,
-      paddingBottom: 24,
+      paddingVertical: spacing.lg,
     },
-    titleContainer: {
+    headerTop: {
       flexDirection: "row",
-      alignItems: "center",
-      marginBottom: 20,
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      marginBottom: spacing.md,
     },
-    iconContainer: {
-      width: 56,
-      height: 56,
-      borderRadius: 16,
-      justifyContent: "center",
-      alignItems: "center",
-      marginRight: 16,
-    },
-    titleTextContainer: {
-      flex: 1,
+    greeting: {
+      fontSize: 14,
+      color: colors.textMuted,
+      marginBottom: 4,
     },
     title: {
-      fontSize: 32,
-      fontWeight: "700",
-      letterSpacing: -1,
-      marginBottom: 4,
+      fontSize: 28,
+      fontWeight: "bold",
       color: colors.text,
     },
-    subtitle: {
-      fontSize: 17,
-      fontWeight: "500",
-      color: colors.textMuted,
+    vibeIndicator: {
+      paddingHorizontal: spacing.md,
+      paddingVertical: spacing.sm,
+      borderRadius: borderRadius.full,
+      ...shadows.soft,
+    },
+    vibeText: {
+      fontSize: 12,
+      fontWeight: "600",
+      color: "#fff",
+      textTransform: "uppercase",
     },
     progressContainer: {
-      marginTop: 8,
+      marginTop: spacing.sm,
+    },
+    progressInfo: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: spacing.sm,
+    },
+    progressLabel: {
+      fontSize: 14,
+      color: colors.textMuted,
+    },
+    progressPercentage: {
+      fontSize: 16,
+      fontWeight: "600",
+      color: colors.text,
     },
     progressBarContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      gap: 16,
+      height: 8,
+      backgroundColor: colors.border,
+      borderRadius: borderRadius.sm,
+      overflow: "hidden",
     },
     progressBar: {
       flex: 1,
-      height: 12,
-      borderRadius: 6,
-      overflow: "hidden",
       backgroundColor: colors.border,
+      borderRadius: borderRadius.sm,
     },
     progressFill: {
       height: "100%",
-      borderRadius: 6,
-    },
-    progressText: {
-      fontSize: 16,
-      fontWeight: "700",
-      minWidth: 40,
-      textAlign: "right",
-      color: colors.success,
+      borderRadius: borderRadius.sm,
     },
     inputSection: {
-      paddingHorizontal: 24,
-      paddingBottom: 12,
+      marginBottom: spacing.lg,
     },
-    inputWrapper: {
+    inputContainer: {
       flexDirection: "row",
+      padding: spacing.md,
+      borderRadius: borderRadius.lg,
       alignItems: "flex-end",
-      gap: 16,
+      ...shadows.soft,
     },
     input: {
       flex: 1,
-      borderWidth: 2,
-      borderRadius: 20,
-      paddingHorizontal: 20,
-      paddingVertical: 16,
-      fontSize: 17,
-      maxHeight: 120,
-      fontWeight: "500",
-      backgroundColor: colors.backgrounds.input,
-      borderColor: colors.border,
+      fontSize: 16,
       color: colors.text,
-    },
-    inputFocused: {
-      borderColor: colors.primary,
+      paddingVertical: spacing.sm,
+      paddingRight: spacing.md,
+      maxHeight: 100,
     },
     addButton: {
-      width: 56,
-      height: 56,
-      borderRadius: 28,
+      width: 44,
+      height: 44,
+      borderRadius: borderRadius.full,
       justifyContent: "center",
       alignItems: "center",
+      ...shadows.soft,
     },
     addButtonDisabled: {
       opacity: 0.5,
     },
-    todoList: {
+    taskList: {
       flex: 1,
     },
-    todoListContent: {
-      paddingHorizontal: 24,
-      paddingBottom: 100,
+    taskListContent: {
+      paddingBottom: spacing.xl,
     },
-    emptyListContainer: {
-      flexGrow: 1,
-      justifyContent: "center",
-    },
-    todoItemWrapper: {
-      marginVertical: 12,
-    },
-    todoItem: {
+    taskItem: {
       flexDirection: "row",
+      padding: spacing.md,
+      marginBottom: spacing.md,
+      borderRadius: borderRadius.lg,
       alignItems: "flex-start",
-      padding: 20,
-      borderRadius: 20,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
-      shadowOpacity: 0.1,
-      shadowRadius: 8,
-      elevation: 8,
+      ...shadows.soft,
     },
     checkbox: {
-      marginRight: 16,
+      marginRight: spacing.md,
       marginTop: 2,
     },
     checkboxInner: {
-      width: 32,
-      height: 32,
-      borderRadius: 16,
-      borderWidth: 2,
+      width: 24,
+      height: 24,
+      borderRadius: borderRadius.full,
       justifyContent: "center",
       alignItems: "center",
+      borderWidth: 2,
+      borderColor: colors.border,
     },
-    todoTextContainer: {
+    taskContent: {
       flex: 1,
     },
-    todoText: {
-      fontSize: 17,
-      lineHeight: 24,
-      fontWeight: "500",
-      marginBottom: 16,
+    taskText: {
+      fontSize: 16,
       color: colors.text,
+      lineHeight: 22,
+      marginBottom: spacing.sm,
     },
-    todoActions: {
+    taskTextCompleted: {
+      textDecorationLine: "line-through",
+      color: colors.textMuted,
+      opacity: 0.6,
+    },
+    taskActions: {
       flexDirection: "row",
-      gap: 12,
+      gap: spacing.sm,
     },
     actionButton: {
-      width: 40,
-      height: 40,
-      borderRadius: 20,
+      width: 32,
+      height: 32,
+      borderRadius: borderRadius.sm,
       justifyContent: "center",
       alignItems: "center",
     },
@@ -179,61 +163,93 @@ export const createHomeStyles = (colors: ColorScheme) => {
       flex: 1,
     },
     editInput: {
-      borderWidth: 2,
-      borderRadius: 16,
-      paddingHorizontal: 16,
-      paddingVertical: 12,
-      fontSize: 17,
-      fontWeight: "500",
-      marginBottom: 16,
-      backgroundColor: colors.backgrounds.editInput,
-      borderColor: colors.primary,
+      fontSize: 16,
       color: colors.text,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: borderRadius.sm,
+      padding: spacing.sm,
+      marginBottom: spacing.sm,
+      backgroundColor: colors.background,
     },
-    editButtons: {
+    editActions: {
       flexDirection: "row",
-      gap: 12,
+      gap: spacing.sm,
     },
     editButton: {
-      flexDirection: "row",
+      width: 32,
+      height: 32,
+      borderRadius: borderRadius.sm,
+      justifyContent: "center",
       alignItems: "center",
-      gap: 8,
-      paddingHorizontal: 16,
-      paddingVertical: 10,
-      borderRadius: 12,
-    },
-    editButtonText: {
-      color: "#ffffff",
-      fontSize: 14,
-      fontWeight: "600",
     },
     emptyContainer: {
-      alignItems: "center",
+      flex: 1,
       justifyContent: "center",
-      paddingVertical: 80,
+      alignItems: "center",
+      paddingTop: spacing.xxl,
     },
     emptyIconContainer: {
       width: 120,
       height: 120,
-      borderRadius: 60,
+      borderRadius: borderRadius.full,
       justifyContent: "center",
       alignItems: "center",
-      marginBottom: 24,
+      marginBottom: spacing.lg,
     },
-    emptyText: {
-      fontSize: 24,
-      fontWeight: "700",
-      marginBottom: 8,
+    emptyTitle: {
+      fontSize: 20,
+      fontWeight: "600",
       color: colors.text,
-    },
-    emptySubtext: {
-      fontSize: 17,
+      marginBottom: spacing.sm,
       textAlign: "center",
-      paddingHorizontal: 40,
-      lineHeight: 24,
+    },
+    emptySubtitle: {
+      fontSize: 16,
       color: colors.textMuted,
+      textAlign: "center",
+      paddingHorizontal: spacing.lg,
+    },
+    pandaContainer: {
+      position: "absolute",
+      bottom: 100,
+      right: spacing.md,
+      alignItems: "flex-end",
+    },
+    pandaAvatar: {
+      width: 60,
+      height: 60,
+      borderRadius: borderRadius.full,
+      justifyContent: "center",
+      alignItems: "center",
+      ...shadows.medium,
+    },
+    pandaEmoji: {
+      fontSize: 28,
+    },
+    pandaMessage: {
+      position: "absolute",
+      bottom: 70,
+      right: 0,
+      padding: spacing.md,
+      borderRadius: borderRadius.lg,
+      minWidth: 150,
+      maxWidth: 200,
+      ...shadows.soft,
+    },
+    pandaMessageText: {
+      fontSize: 14,
+      color: colors.text,
+      textAlign: "center",
+    },
+    pandaMessageTail: {
+      position: "absolute",
+      bottom: -6,
+      right: 20,
+      width: 12,
+      height: 12,
+      backgroundColor: colors.surface,
+      transform: [{ rotate: "45deg" }],
     },
   });
-
-  return styles;
 };

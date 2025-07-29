@@ -1,4 +1,4 @@
-import useTheme from "@/hooks/UseTheme";
+import { useTheme } from "@/hooks/useTheme";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import React from "react";
@@ -13,34 +13,62 @@ const TabsLayout = () => {
         tabBarInactiveTintColor: colors.textMuted,
         tabBarStyle: {
           backgroundColor: colors.surface,
-          borderTopWidth: 1,
-          borderTopColor: colors.border,
-          height: 90,
-          paddingBottom: 30,
-          paddingTop: 10,
+          borderTopWidth: 0,
+          elevation: 0,
+          shadowOpacity: 0,
+          height: 85,
+          paddingBottom: 25,
+          paddingTop: 8,
+          borderRadius: 25,
+          marginHorizontal: 20,
+          marginBottom: 10,
+          position: "absolute",
         },
         tabBarLabelStyle: {
-          fontSize: 12,
+          fontSize: 11,
           fontWeight: "600",
+          marginTop: 4,
         },
         headerShown: false,
+        tabBarShowLabel: true,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: "Todos",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="flash-outline" size={size} color={color} />
+          title: "Tasks",
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "checkmark-circle" : "checkmark-circle-outline"}
+              size={size + 2}
+              color={color}
+            />
           ),
         }}
       />
       <Tabs.Screen
-        name="setting"
+        name="vibes"
         options={{
-          title: "Setting",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="settings" size={size} color={color} />
+          title: "Vibes",
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "happy" : "happy-outline"}
+              size={size + 2}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="stats"
+        options={{
+          title: "Stats",
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "stats-chart" : "stats-chart-outline"}
+              size={size + 2}
+              color={color}
+            />
           ),
         }}
       />

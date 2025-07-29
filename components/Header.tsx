@@ -1,57 +1,59 @@
 import { createHomeStyles } from "@/assets/styles/home.styles";
-import { api } from "@/convex/_generated/api";
-import useTheme from "@/hooks/UseTheme";
-import { Ionicons } from "@expo/vector-icons";
-import { useQuery } from "convex/react";
+import { useTasks } from "@/hooks/useTasks";
+import { useTheme } from "@/hooks/useTheme";
+import { useVibes } from "@/hooks/useVibes";
 import { LinearGradient } from "expo-linear-gradient";
 import { Text, View } from "react-native";
 
 const Header = () => {
   const { colors } = useTheme();
+  const { currentVibe, getVibeConfig } = useVibes();
+  const { getStats } = useTasks();
+  const styles = createHomeStyles(colors, currentVibe);
 
-  const homeStyles = createHomeStyles(colors);
-
-  const todos = useQuery(api.todos.getTodos);
-
-  const completedCount = todos
-    ? todos.filter((todo) => todo.isCompleted).length
-    : 0;
-  const totalCount = todos ? todos.length : 0;
+  const stats = getStats();
+  const vibeConfig = getVibeConfig();
   const progressPercentage =
-    totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
+    stats.total > 0 ? (stats.completed / stats.total) * 100 : 0;
+
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "good morning ☀️";
+    if (hour < 17) return "good afternoon 🌤️";
+    return "good evening 🌙";
+  };
 
   return (
-    <View style={homeStyles.header}>
-      <View style={homeStyles.titleContainer}>
-        <LinearGradient
-          colors={colors.gradients.primary}
-          style={homeStyles.iconContainer}
-        >
-          <Ionicons name="flash-outline" size={28} color="#fff" />
-        </LinearGradient>
-
-        <View style={homeStyles.titleTextContainer}>
-          <Text style={homeStyles.title}>Today&apos;s Tasks 👀</Text>
-          <Text style={homeStyles.subtitle}>
-            {completedCount} of {totalCount} completed
-          </Text>
+    <View style={styles.header}>
+      <View style={styles.headerTop}>
+        <View>
+          <Text style={styles.greeting}>{getGreeting()}</Text>
+          <Text style={styles.title}>L8r Tasks {vibeConfig.emoji}</Text>
         </View>
+        <LinearGradient
+          colors={vibeConfig.gradientColors}
+          style={styles.vibeIndicator}
+        >
+          <Text style={styles.vibeText}>{currentVibe}</Text>
+        </LinearGradient>
       </View>
 
-      <View style={homeStyles.progressContainer}>
-        <View style={homeStyles.progressBarContainer}>
-          <View style={homeStyles.progressBar}>
-            <LinearGradient
-              colors={colors.gradients.success}
-              style={[
-                homeStyles.progressFill,
-                { width: `${progressPercentage}%` },
-              ]}
-            />
-          </View>
-          <Text style={homeStyles.progressText}>
+      <View style={styles.progressContainer}>
+        <View style={styles.progressInfo}>
+          <Text style={styles.progressLabel}>
+            {stats.completed} of {stats.total} done
+          </Text>
+          <Text style={styles.progressPercentage}>
             {Math.round(progressPercentage)}%
           </Text>
+        </View>
+        <View style={styles.progressBarContainer}>
+          <View style={styles.progressBar}>
+            <LinearGradient
+              colors={colors.gradients.success}
+              style={[styles.progressFill, { width: `${progressPercentage}%` }]}
+            />
+          </View>
         </View>
       </View>
     </View>
